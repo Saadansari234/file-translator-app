@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="example.xml" source-language="en" target-language="es" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Hello, world!</source>
+        <target>Hello, world!</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Welcome to our website.</source>
+        <target>Welcome to our website.</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Thank you for your purchase.</source>
+        <target>Thank you for your purchase.</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Click here to learn more.</source>
+        <target>Click here to learn more.</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Please enter your email address.</source>
+        <target>Please enter your email address.</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source><h1><span>Please enter your email address.</h1></span></source>
+        <target><h1><span>Please enter your email address.</h1></span></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
