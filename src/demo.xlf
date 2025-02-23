@@ -94,6 +94,18 @@
               
             </trans-unit>
 
+            <trans-unit id="5qXOCdDTnuv" xml:space="preserve" datatype="x-DocumentState">
+                <source>
+                <bpt ctype="x-block" id="block_0" />
+                <ph id="generic_1">&lt;Style DefaultTabStop="69.8181839" /&gt;</ph>
+                <bpt ctype="x-style" id="span_2">&lt;Style FontFamily="+minor" FontSize="12" FontIsBold="True"
+                    ForegroundColor="#0068B7" LinkColor="#0068B7" /&gt;</bpt>
+                <g ctype="x-text" id="text_2">%slide_name%</g>
+                <ept id="span_2" />
+                <ept id="block_0" />
+                </source>
+            </trans-unit>
+
 
         </body>
     </file>
