@@ -106,6 +106,27 @@
                 </source>
             </trans-unit>
 
+            <trans-unit id="6Y3HlZ1CNuA" xml:space="preserve" datatype="x-DocumentState">
+        <source>
+        <bpt ctype="x-block" id="block_0" />
+        <ph id="generic_1">&lt;Style FlowDirection="LeftToRight" LeadingMargin="0" TrailingMargin="0"
+          FirstLineMargin="0" Justification="Left" DefaultTabStop="64" ListLevel="0" LineSpacingRule="Single"
+          LineSpacing="20" SpacingBefore="0" SpacingAfter="0"&gt;&lt;ListStyle ListType="None" ListTypeFormat="Period"
+          Start="0" Color="#000000" Size="100" BulletChar="•" BulletFont="Arial"&gt;&lt;BulletPicture Size="0x0"
+          /&gt;&lt;/ListStyle&gt;&lt;/Style&gt;</ph>
+        <bpt ctype="x-style" id="span_2">&lt;Style FontFamily="Roboto Light" FontSize="14" FontIsBold="True"
+          FontIsItalic="False" FontIsUnderline="False" FontIsStrikeout="False" UnderlineStyle="Normal"
+          ForegroundColor="dk1,00" BackgroundColor="#000000,00" UnderlineColor="#000000,00" Elevation="Normal"
+          Spacing="0" IgnoreKerningTable="False" DisplayCase="AsIs" LanguageId="0" LinkColor="dk1,00"&gt;&#xD;
+          &lt;Shadow Offset="0x0" Color="#FFFFFF,00" /&gt;&#xD;
+          &lt;/Style&gt;</bpt>
+        <g ctype="x-text" id="text_2">You identified correctly %combinedans% of the 2 key messages on sexually %dev bhai%
+          transmitted infections (STIs).</g>
+        <ept id="span_2" />
+        <ept id="block_0" />
+        </source>
+      </trans-unit>
+
 
         </body>
     </file>
