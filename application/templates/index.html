@@ -1,0 +1,117 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+</head>
+
+<body>
+  <h1>XLIFF file tranlator app</h1>
+  <div class="mb-3">
+    <form action="{% url 'translate_xliff' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="formFile" class="form-label">Upload XLIFF File</label>
+      <input class="form-control" type="file" id="formFile" name="xliff_file" required />
+      <button type="submit">Translate</button>
+    </form>
+  </div>
+
+  {% if source_data and translated_data %}
+  <div>
+    <ul>
+      {% for source in source_data %}
+      <li class="source-item">{{ source }}</li>
+      {% endfor %}
+    </ul>
+    <ul id="translatedList">
+      {% for translated in translated_data %}
+      <li class="translated-item">
+        <span class="translated-text">{{ translated }}</span>
+        <input type="text" class="translated-input" value="{{ translated }}" style="display: none;">
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% else %}
+  <p>No data available. Please upload an XLIFF file for translation.</p>
+  {% endif %}
+
+  <button id="editButton" onclick="enableEditing()">Edit</button>
+  <button id="updateButton" onclick="getUpdatedValues()">download</button>
+
+  <script>
+    function enableEditing() {
+      document.querySelectorAll(".translated-item").forEach((item) => {
+        item.querySelector(".translated-text").style.display = "none";
+        item.querySelector(".translated-input").style.display = "inline-block";
+      });
+
+      // document.getElementById("editButton").style.display = "none"; 
+      // document.getElementById("updateButton").style.display = "inline-block";
+    }
+
+    const getUpdatedValues = async () => {
+      let updatedTranslated = [];
+      let updatedSource = []
+      document.querySelectorAll(".translated-item .translated-input").forEach((input) => {
+        updatedTranslated.push(input.value);
+      });
+      document.querySelectorAll(".source-item").forEach((item) => {
+        updatedSource.push(item.innerText);
+      });
+
+      console.log("Updated Translated Data:", updatedTranslated);
+      console.log("Updated Translated Data:", updatedSource);
+
+      
+      // sending post  request to backend for updating current array
+      const response = await fetch("{% url 'update_translations' %}", {  // Change this to your actual Django URL
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"  // Ensure CSRF token is available
+        },
+        body: JSON.stringify({
+          source_data: updatedSource,
+          translated_data: updatedTranslated,
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Data updated successfully:", data);
+        })
+        .catch(error => {
+          console.error("Error updating data:", error);
+        });
+
+        if (!response.ok) { 
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        console.log("Response:", response);
+
+      /////////////////////////////////// getting downloaded file from response  //////////////////////////
+
+
+      // Restore normal view
+      document.querySelectorAll(".translated-item").forEach((item) => {
+        let span = item.querySelector(".translated-text");
+        let input = item.querySelector(".translated-input");
+
+        span.innerText = input.value;
+        span.style.display = "inline-block";
+        input.style.display = "none";
+      });
+
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
