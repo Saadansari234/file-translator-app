@@ -57,18 +57,7 @@ def update_translations(request):
             
             save_xliff_file(file_path, translated_data)  
 
-            translated_file_path = "media/translated.xlf"
-
-            if os.path.exists(translated_file_path):  
-             response = FileResponse(
-             open(translated_file_path, "rb"), 
-             as_attachment=True, 
-             filename="translated.xlf"
-             )
-             response['Content-Type'] = 'application/x-xliff+xml'  # Ensure correct MIME type
-             return response
-            else:   
-              return HttpResponseNotFound("File not found.")    
+              
                             
         except json.JSONDecodeError:
             return JsonResponse({"message": "Invalid JSON data", "status": "error"}, status=400)
@@ -76,3 +65,20 @@ def update_translations(request):
     return JsonResponse({"message": "Only POST requests are allowed"}, status=405)
 
 
+
+def download_File(request):
+   if request.method == "GET":
+      translated_file_path = "media/translated.xlf"
+
+      if os.path.exists(translated_file_path):  
+             response = FileResponse(
+             open(translated_file_path, "rb"), 
+             as_attachment=True, 
+             filename="translated.xlf"
+             )
+             response['Content-Type'] = 'application/x-xliff+xml'  # Ensure correct MIME type
+             print("responssssssssssssssssseeeeeeeeeeee", response)
+             return response
+      else:   
+              return HttpResponseNotFound("File not found.")        
+      

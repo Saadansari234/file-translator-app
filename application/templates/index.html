@@ -40,7 +40,8 @@
   {% endif %}
 
   <button id="editButton" onclick="enableEditing()">Edit</button>
-  <button id="updateButton" onclick="getUpdatedValues()">download</button>
+  <button id="updateButton" onclick="getUpdatedValues()">save changes</button>
+  <button id="downloadButton" onclick="getDownloadedFile()">download file</button>
 
   <script>
     function enableEditing() {
@@ -66,9 +67,9 @@
       console.log("Updated Translated Data:", updatedTranslated);
       console.log("Updated Translated Data:", updatedSource);
 
-      
+
       // sending post  request to backend for updating current array
-      const response = await fetch("{% url 'update_translations' %}", {  // Change this to your actual Django URL
+      const response = await fetch("{% url 'update-translations' %}", {  // Change this to your actual Django URL
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,24 +88,46 @@
           console.error("Error updating data:", error);
         });
 
-        if (!response.ok) { 
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        console.log("Response:", response);
-
-      /////////////////////////////////// getting downloaded file from response  //////////////////////////
-
-
+   
       // Restore normal view
       document.querySelectorAll(".translated-item").forEach((item) => {
         let span = item.querySelector(".translated-text");
         let input = item.querySelector(".translated-input");
-
         span.innerText = input.value;
         span.style.display = "inline-block";
         input.style.display = "none";
+
       });
+    }
+
+    const getDownloadedFile = async () => {
+      /////////////////////////////////// getting downloaded file from response  //////////////////////////
+
+      try {
+        const response = await fetch("{% url 'download-translations' %}", {
+          method: "GET",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}" // Ensure CSRF token is available
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "translated.xlf"; // Set the desired filename
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url); // Clean up the URL object
+
+      } catch (error) {
+        console.error("Error downloading file:", error);
+        // Handle error appropriately (e.g., display an error message)
+      }
 
     }
   </script>
