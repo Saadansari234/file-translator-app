@@ -19,29 +19,35 @@
     </form>
   </div>
 
-  {% if source_data and translated_data %}
-  <div>
-    <ul>
-      {% for source in source_data %}
-      <li class="source-item">{{ source }}</li>
+  <button id="editButton" onclick="enableEditing()">Edit</button>
+  <button id="updateButton" onclick="getUpdatedValues()">save changes</button>
+  <button id="downloadButton" onclick="getEditedDownloadedFile()">download file</button>
+
+  {% if paired_data %}
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Source Text</th>
+        <th>Translated Text</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for source, translated in paired_data %}
+      <tr class="translated-item">
+        <td>{{ source }}</td>
+        <td>
+          <span class="translated-text">{{ translated }}</span>
+          <input type="text" class="translated-input" value="{{ translated }}" style="display: none;">
+        </td>
+      </tr>
       {% endfor %}
-    </ul>
-    <ul id="translatedList">
-      {% for translated in translated_data %}
-      <li class="translated-item">
-        <span class="translated-text">{{ translated }}</span>
-        <input type="text" class="translated-input" value="{{ translated }}" style="display: none;">
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
+    </tbody>
+  </table>
   {% else %}
   <p>No data available. Please upload an XLIFF file for translation.</p>
   {% endif %}
 
-  <button id="editButton" onclick="enableEditing()">Edit</button>
-  <button id="updateButton" onclick="getUpdatedValues()">save changes</button>
-  <button id="downloadButton" onclick="getDownloadedFile()">download file</button>
+
 
   <script>
     function enableEditing() {
@@ -88,7 +94,7 @@
           console.error("Error updating data:", error);
         });
 
-   
+
       // Restore normal view
       document.querySelectorAll(".translated-item").forEach((item) => {
         let span = item.querySelector(".translated-text");
@@ -100,11 +106,11 @@
       });
     }
 
-    const getDownloadedFile = async () => {
-      /////////////////////////////////// getting downloaded file from response  //////////////////////////
+    const getEditedDownloadedFile = async () => {
+      /////////////////////////////////// getting downloaded file from response after updating  //////////////////////////
 
       try {
-        const response = await fetch("{% url 'download-translations' %}", {
+        const response = await fetch("{% url 'download-edited-translations' %}", {
           method: "GET",
           headers: {
             "X-CSRFToken": "{{ csrf_token }}" // Ensure CSRF token is available
@@ -130,6 +136,10 @@
       }
 
     }
+
+
+
+
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
