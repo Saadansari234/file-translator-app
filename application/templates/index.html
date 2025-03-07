@@ -9,31 +9,55 @@
 
 </head>
 
+<style>
+  .translated-input {
+    background: #80808080;
+  }
+
+  .btn-container{
+    background: #8080802b;
+    padding: 0.8rem 1rem;
+    border-radius: 0.5rem 
+  }
+</style>
+
+
 <body>
   <div class="container">
 
 
-    <h1>XLIFF file tranlator app</h1>
-    <div class="mb-3">
-      <form id="uploadForm"  action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+    
+    <div class="my-5">
+      <form id="uploadForm" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="formFile" class="form-label">Upload XLIFF File</label>
-        <input class="form-control" type="file" id="formFile" name="xliff_file" required />
-        <button type="submit">Translate</button>
+        <h1>XLIFF file tranlator app</h1>
+        <input class="form-control my-3" type="file" id="formFile" name="xliff_file" required />
+        <button type="submit" class="btn btn-success">Translate</button>
       </form>
     </div>
-  
-    <button id="editButton" onclick="enableEditing()">Edit</button>
-    <button id="updateButton" onclick="getUpdatedValues()">save changes</button>
-    <button id="downloadButton" onclick="getEditedDownloadedFile()">download edited  file</button>
-    <button id="downloadButton" onclick="getDownloadedFile()">download file</button>
-  
+
+
     {% if paired_data %}
+    <div class="d-flex justify-content-end gap-3 btn-container">
+      <button id="editButton" class="btn btn-info" onclick="enableEditing()">Edit</button>
+      <button id="updateButton" class="btn btn-primary" onclick="getUpdatedValues()" style="display: none;">save
+        changes</button>
+      <button id="updateddownloadButton" class="btn btn-success" onclick="getEditedDownloadedFile()"
+        style="display: none;">download edited
+        file</button>
+      <button id="downloadButton" class="btn btn-success" onclick="getDownloadedFile()">download file</button>
+    </div>
+
+
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <th>Source Text</th>
-          <th>Translated Text</th>
+          <th>
+            <h2>Source Text</h2>
+          </th>
+          <th>
+            <h2>Translated Text</h2>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +66,8 @@
           <td>{{ source }}</td>
           <td>
             <span class="translated-text">{{ translated }}</span>
-            <input type="text" class="translated-input" value="{{ translated }}" style="display: none;">
+            <textarea class="form-control translated-input" rows="4" cols="50"
+              style="display: none;">{{translated}}</textarea>
           </td>
         </tr>
         {% endfor %}
@@ -51,20 +76,23 @@
     {% else %}
     <p>No data available. Please upload an XLIFF file for translation.</p>
     {% endif %}
+
   </div>
 
 
 
+
   <script>
-    document.getElementById("uploadForm").reset();
+
     function enableEditing() {
       document.querySelectorAll(".translated-item").forEach((item) => {
         item.querySelector(".translated-text").style.display = "none";
         item.querySelector(".translated-input").style.display = "inline-block";
       });
 
-      // document.getElementById("editButton").style.display = "none"; 
-      // document.getElementById("updateButton").style.display = "inline-block";
+      document.getElementById("updateButton").style.display = "inline-block";
+      document.getElementById("downloadButton").style.display = "none";
+
     }
 
     const getUpdatedValues = async () => {
@@ -86,7 +114,7 @@
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": "{{ csrf_token }}"  // Ensure CSRF token is available
+          "X-CSRFToken": "{{ csrf_token }}"  //    CSRF token is available
         },
         body: JSON.stringify({
           source_data: updatedSource,
@@ -111,6 +139,8 @@
         input.style.display = "none";
 
       });
+      document.getElementById("updateddownloadButton").style.display = "inline-block";
+
     }
 
     const getEditedDownloadedFile = async () => {
@@ -176,9 +206,6 @@
       }
 
     }
-
-
-
 
   </script>
 

@@ -10,13 +10,6 @@ from django.http import FileResponse, HttpResponseNotFound
 # Create your views here.
 
 
-
-
-# def index(request):
-#     return render(request, "index.html")
-
-
-
 source_data = []
 translated_data = []
 
@@ -38,7 +31,9 @@ def index(request):
                 "paired_data": list(zip(source_data, translated_data))  # Pair source & translated text
             }
         return render(request, "index.html", context)
-    return render(request, "index.html")
+    else:
+         
+       return render(request, "index.html")
 
 
 
@@ -52,7 +47,6 @@ def update_translations(request):
         data = json.loads(request.body)
         source_data = data.get("source_data", [])
         translated_data = data.get("translated_data", [])
-        print("translateddddddddddddddddddddddddddddddddddd", translated_data)
         print("Received Source Data:", source_data)
         print("Received Translated Data:", translated_data)
 
@@ -72,7 +66,7 @@ def update_translations(request):
 def download_edited_File(request):
    if request.method == "GET":
       translated_file_path = "media/translated.xlf"
-
+      file_path = request.session.get("file_path", "")
       if os.path.exists(translated_file_path):  
              response = FileResponse(
              open(translated_file_path, "rb"), 
@@ -80,7 +74,6 @@ def download_edited_File(request):
              filename="translated.xlf"
              )
              response['Content-Type'] = 'application/x-xliff+xml'  # Ensure correct MIME type
-             print("responssssssssssssssssseeeeeeeeeeee", response)
              return response
       else:   
               return HttpResponseNotFound("File not found.")
@@ -90,8 +83,6 @@ def download_edited_File(request):
 def download_File(request):
    if request.method == "GET":
       file_path = request.session.get("file_path", "") 
-      print("sadddddddddddddddddddddddddddddddddddddd", file_path)
-      print("sadddddddddddddddddddddddddddddddddddddd", translated_data)
       save_xliff_file(file_path, translated_data)  
       os.remove(file_path)
 
@@ -105,7 +96,6 @@ def download_File(request):
              filename="translated.xlf"
              )
              response['Content-Type'] = 'application/x-xliff+xml'  # Ensure correct MIME type
-             print("responssssssssssssssssseeeeeeeeeeee", response)
              return response
       else:   
               return HttpResponseNotFound("File not found.")    
