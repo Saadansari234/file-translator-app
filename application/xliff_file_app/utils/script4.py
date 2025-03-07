@@ -9,8 +9,9 @@ import asyncio
 import ssl
 import copy
 import re
+from tqdm.asyncio import tqdm
 
-path = r"C:\Users\ADMIN\Desktop\saad\python\file-translator-app\src"
+# path = r"C:\Users\ADMIN\Desktop\saad\python\file-translator-app\src"
 
 
 
@@ -67,7 +68,7 @@ def translate_file(file_path):
     translated_Data=[]
 
     async def translate_cell():
-        for value in source_Data:
+        for value in tqdm(source_Data, desc="Translating", unit="text"):
                 value = str(value).strip()
                 
 

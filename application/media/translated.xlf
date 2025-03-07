@@ -60,12 +60,12 @@
                 <ns0:bpt ctype="x-style" id="span_2">&lt;Style FontSize="12" FontIsBold="False" FontIsItalic="True"
                     FontIsUnderline="False" FontIsStrikeout="False" ForegroundColor="#264EA1" LinkColor="#264EA1" /&gt;
                 </ns0:bpt>
-                <ns0:g ctype="x-text" id="text_2">सांस की तकलीफ का प्रबंधन</ns0:g>
+                <ns0:g ctype="x-text" id="text_2">क्लिक</ns0:g>
                 <ns0:ept id="span_2" />
                 <ns0:bpt ctype="x-style" id="span_3">&lt;Style FontSize="12" FontIsBold="True" FontIsItalic="True"
                     FontIsUnderline="False" FontIsStrikeout="False" ForegroundColor="#264EA1" LinkColor="#264EA1" /&gt;
                 </ns0:bpt>
-                <ns0:g ctype="x-text" id="text_3">सांस की तकलीफ का प्रबंधन</ns0:g>
+                <ns0:g ctype="x-text" id="text_3">शुरू</ns0:g>
                 <ns0:ept id="span_3" />
                 <ns0:bpt ctype="x-style" id="span_4">&lt;Style FontSize="12" FontIsBold="False" FontIsItalic="True"
                     FontIsUnderline="False" FontIsStrikeout="False" ForegroundColor="#264EA1" LinkColor="#264EA1" /&gt;
