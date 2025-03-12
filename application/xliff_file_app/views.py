@@ -6,7 +6,7 @@ from django.core.files.storage import default_storage
 from .utils.script4 import translate_file, save_xliff_file
 import os
 from django.http import FileResponse, HttpResponseNotFound
-
+from .utils.language import languages
 # Create your views here.
 
 
@@ -17,23 +17,25 @@ def index(request):
     global source_data, translated_data
     if request.method == "POST" and request.FILES.get("xliff_file"):
         xliff_file = request.FILES["xliff_file"]
+        selected_language = request.POST.get("target_language")  # Get selected language
 
        
         file_path = default_storage.save(f"temp/{xliff_file.name}", xliff_file)
 
         print(file_path)
         request.session["file_path"] = file_path
-
-        source_data, translated_data = translate_file(file_path)
+        source_data, translated_data = translate_file(file_path, selected_language)
             # Store translated data in session
 
         context = {
-                "paired_data": list(zip(source_data, translated_data))  # Pair source & translated text
+                "paired_data": list(zip(source_data, translated_data)),  # Pair source & translated text
+                "languages": languages
             }
         return render(request, "index.html", context)
     else:
-         
-       return render(request, "index.html")
+       options = {"languages": languages}
+       return render(request, "index.html", options )
+    
 
 
 
@@ -99,7 +101,3 @@ def download_File(request):
              return response
       else:   
               return HttpResponseNotFound("File not found.")    
-
-        
-
-

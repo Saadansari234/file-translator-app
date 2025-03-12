@@ -9,13 +9,14 @@ import asyncio
 import ssl
 import copy
 import re
+import time
 from tqdm.asyncio import tqdm
 
 # path = r"C:\Users\ADMIN\Desktop\saad\python\file-translator-app\src"
 
 
 
-def translate_file(file_path):
+def translate_file(file_path, selected_language):
 
     if not file_path.endswith(".xlf"):
         print("Not an XLIFF file.")
@@ -68,7 +69,7 @@ def translate_file(file_path):
     translated_Data=[]
 
     async def translate_cell():
-        for value in tqdm(source_Data, desc="Translating", unit="text"):
+        for index, value in tqdm(enumerate(source_Data), desc="Translating", unit="text"):
                 value = str(value).strip()
                 
 
@@ -77,7 +78,7 @@ def translate_file(file_path):
                     splittedValue = re.findall(r"%[^%]+%|\S+", value)
                     for elem in splittedValue:
                         if "%" not in elem:
-                            translated = await translator.translate(elem, dest="hi")
+                            translated = await translator.translate(elem, dest=selected_language)
                             elem = translated.text
                             specialTxtList.append(elem)
                         else:
@@ -88,14 +89,15 @@ def translate_file(file_path):
                     translated_Data.append(specialTranslatedText)
 
                 else:
-
+                    # time.sleep(1)  # Wait 1 second before each request
                     # Properly await the async translate function
-                    translated = await translator.translate(value, dest="hi")
+                    translated = await translator.translate(value, dest=selected_language)
                     translated_text = translated.text  # Extract translated text
 
                     print(translated_text)
                     translated_Data.append(translated_text)
 
+              
         # translated data
         print("translated data", translated_Data)
 
