@@ -1,1 +1,1 @@
-web: gunicorn xliff_file_app.wsgi:application
+web: gunicorn application.wsgi:application --bind 0.0.0.0:$PORT
