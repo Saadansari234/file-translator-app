@@ -1,1 +1,1 @@
-web: gunicorn application.wsgi:application
+web: gunicorn xliff_file_app.wsgi:application
