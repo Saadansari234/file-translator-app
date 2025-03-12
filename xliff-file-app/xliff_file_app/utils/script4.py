@@ -1,16 +1,11 @@
 import xml.etree.cElementTree as ET
-import xlrd
-import xlwt
-from xlwt import Workbook
 from googletrans import Translator
-from bs4 import BeautifulSoup
 import os
 import asyncio
 import ssl
 import copy
 import re
 import time
-from tqdm.asyncio import tqdm
 
 # path = r"C:\Users\ADMIN\Desktop\saad\python\file-translator-app\src"
 
@@ -69,7 +64,7 @@ def translate_file(file_path, selected_language):
     translated_Data=[]
 
     async def translate_cell():
-        for index, value in tqdm(enumerate(source_Data), desc="Translating", unit="text"):
+        for  value in source_Data:
                 value = str(value).strip()
                 
 
