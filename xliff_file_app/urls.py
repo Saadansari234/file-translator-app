@@ -7,7 +7,6 @@ from .views import download_File
 
 urlpatterns = [
     path('', index, name='index'),
-    # path("translate_xliff/", translate_xliff_view, name="translate_xliff"),
      path("update-translations/", update_translations, name="update-translations"),
      path("download-edited-translations/", download_edited_File, name="download-edited-translations"),
      path("download-translations/", download_File, name="download-translations"),
