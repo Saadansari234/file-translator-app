@@ -128,4 +128,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 
-ALLOWED_HOSTS = ['xliff-file-app.onrender.com']
+ALLOWED_HOSTS = ['application.onrender.com']
